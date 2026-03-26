@@ -1,0 +1,23 @@
+Household A:
+  Monthly Income: ₦100,000
+  Fuel Cost Before Subsidy Removal: ₦5,000
+  Fuel Cost After Subsidy Removal: ₦13,500.00
+  Remaining Income Before: ₦95,000
+  Remaining Income After: ₦86,500.00
+  Loss in Income: ₦8,500.00
+
+Household B:
+  Monthly Income: ₦250,000
+  Fuel Cost Before Subsidy Removal: ₦15,000
+  Fuel Cost After Subsidy Removal: ₦40,500.00
+  Remaining Income Before: ₦235,000
+  Remaining Income After: ₦209,500.00
+  Loss in Income: ₦25,500.00
+
+Household C:
+  Monthly Income: ₦500,000
+  Fuel Cost Before Subsidy Removal: ₦30,000
+  Fuel Cost After Subsidy Removal: ₦81,000.00
+  Remaining Income Before: ₦470,000
+  Remaining Income After: ₦419,000.00
+  Loss in Income: ₦51,000.00
