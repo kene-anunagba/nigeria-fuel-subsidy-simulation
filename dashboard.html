@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8">
+    <title>Nigeria Fuel Subsidy OG/MUIO Simulation</title>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+   <style>
+       .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.card p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.income-card {
+    background-color: #2e8b57;
+}
+
+.fuel-card {
+    background-color: #ff8c00;
+}
+
+.loss-card {
+    background-color: #dc3545;
+}
+
+.remain-card {
+    background-color: #007bff;
+}
+
+canvas {
+    margin-top: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+    </style>
+</head>
+<body>
+    <div class="simulation-container">
+        <h2>Nigeria Fuel Subsidy OG/MUIO Simulation</h2>
+
+        <label>Monthly Income (Naira):</label>
+        <input type="number" id="income" placeholder="Enter your monthly income">
+
+        <label>Fuel Cost Before Subsidy Removal (Naira):</label>
+        <input type="number" id="fuelCostBefore" placeholder="Enter fuel cost before subsidy removal">
+
+        <label>Fuel Cost After Subsidy Removal (Naira):</label>
+        <input type="number" id="fuelCostAfter" placeholder="Enter fuel cost after subsidy removal">
+
+        <button onclick="simulate()">Simulate</button>
+
+       <div class="cards">
+    <div class="card income-card">
+        <h3>Monthly Income</h3>
+        <p id="incomeCard">₦0</p>
+    </div>
+
+    <div class="card fuel-card">
+        <h3>Fuel Cost After</h3>
+        <p id="fuelAfterCard">₦0</p>
+    </div>
+
+    <div class="card loss-card">
+        <h3>Loss in Income</h3>
+        <p id="lossCard">₦0</p>
+    </div>
+
+    <div class="card remain-card">
+        <h3>Remaining Income After</h3>
+        <p id="remainCard">₦0</p>
+    </div>
+</div>
+
+<div class="simulation-result" id="result"></div>
+
+<canvas id="incomeChart" width="400" height="200"></canvas>
+
+    <script>
+    let chart;
+
+    function simulate() {
+        var income = parseFloat(document.getElementById("income").value);
+        var fuelCostBefore = parseFloat(document.getElementById("fuelCostBefore").value);
+        var fuelCostAfter = parseFloat(document.getElementById("fuelCostAfter").value);
+
+        if (isNaN(income) || isNaN(fuelCostBefore) || isNaN(fuelCostAfter)) {
+            document.getElementById("result").innerHTML = "Please enter valid numbers for all fields.";
+            return;
+        }
+
+        var extraFuelCost = fuelCostAfter - fuelCostBefore;
+        var remainingIncomeBefore = income - fuelCostBefore;
+        var remainingIncomeAfter = income - fuelCostAfter;
+        var lossInIncome = remainingIncomeBefore - remainingIncomeAfter;
+        var percentageIncrease = (extraFuelCost / fuelCostBefore) * 100;
+
+        document.getElementById("incomeCard").innerText = "₦" + income.toLocaleString();
+        document.getElementById("fuelAfterCard").innerText = "₦" + fuelCostAfter.toLocaleString();
+        document.getElementById("lossCard").innerText = "₦" + lossInIncome.toLocaleString();
+        document.getElementById("remainCard").innerText = "₦" + remainingIncomeAfter.toLocaleString();
+
+        document.getElementById("result").innerHTML =
+            "<strong>Detailed Results:</strong><br><br>" +
+            "Fuel Cost Before Subsidy Removal: ₦" + fuelCostBefore.toLocaleString() + "<br>" +
+            "Fuel Cost After Subsidy Removal: ₦" + fuelCostAfter.toLocaleString() + "<br>" +
+            "Extra Fuel Cost: ₦" + extraFuelCost.toLocaleString() + "<br>" +
+            "Remaining Income Before: ₦" + remainingIncomeBefore.toLocaleString() + "<br>" +
+            "Remaining Income After: ₦" + remainingIncomeAfter.toLocaleString() + "<br>" +
+            "Fuel Price Increase: " + percentageIncrease.toFixed(2) + "%";
+
+        const ctx = document.getElementById("incomeChart").getContext("2d");
+
+        if (chart) {
+            chart.destroy();
+        }
+
+        chart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Before Subsidy Removal", "After Subsidy Removal"],
+                datasets: [{
+                    label: "Remaining Income (₦)",
+                    data: [remainingIncomeBefore, remainingIncomeAfter]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    </script>
+</body>
+</html>
