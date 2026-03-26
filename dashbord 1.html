@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nigeria Fuel Subsidy OG/MUIO Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .simulation-container {
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 400px;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .simulation-result {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="simulation-container">
+        <h2>Nigeria Fuel Subsidy OG/MUIO Simulation</h2>
+
+        <label>Monthly Income (Naira):</label>
+        <input type="number" id="income" placeholder="Enter your monthly income">
+
+        <label>Fuel Cost Before Subsidy Removal (Naira):</label>
+        <input type="number" id="fuelCostBefore" placeholder="Enter fuel cost before subsidy removal">
+
+        <label>Fuel Cost After Subsidy Removal (Naira):</label>
+        <input type="number" id="fuelCostAfter" placeholder="Enter fuel cost after subsidy removal">
+
+        <button onclick="simulate()">Simulate</button>
+
+        <div class="simulation-result" id="result"></div>
+    </div>
+
+    <script>
+        function simulate() {
+            var income = parseFloat(document.getElementById("income").value);
+            var fuelCostBefore = parseFloat(document.getElementById("fuelCostBefore").value);
+            var fuelCostAfter = parseFloat(document.getElementById("fuelCostAfter").value);
+
+            if (isNaN(income) || isNaN(fuelCostBefore) || isNaN(fuelCostAfter)) {
+                document.getElementById("result").innerHTML = "Please enter valid numbers for all fields.";
+                return;
+            }
+
+            var extraFuelCost = fuelCostAfter - fuelCostBefore;
+            var remainingIncomeBefore = income - fuelCostBefore;
+            var remainingIncomeAfter = income - fuelCostAfter;
+            var lossInIncome = remainingIncomeBefore - remainingIncomeAfter;
+            var percentageIncrease = (extraFuelCost / fuelCostBefore) * 100;
+
+            document.getElementById("result").innerHTML =
+                "<strong>Results:</strong><br><br>" +
+                "Monthly Income: ₦" + income.toLocaleString() + "<br>" +
+                "Fuel Cost Before Subsidy Removal: ₦" + fuelCostBefore.toLocaleString() + "<br>" +
+                "Fuel Cost After Subsidy Removal: ₦" + fuelCostAfter.toLocaleString() + "<br>" +
+                "Extra Fuel Cost: ₦" + extraFuelCost.toLocaleString() + "<br>" +
+                "Remaining Income Before: ₦" + remainingIncomeBefore.toLocaleString() + "<br>" +
+                "Remaining Income After: ₦" + remainingIncomeAfter.toLocaleString() + "<br>" +
+                "Loss in Income: ₦" + lossInIncome.toLocaleString() + "<br>" +
+                "Fuel Price Increase: " + percentageIncrease.toFixed(2) + "%";
+        }
+    </script>
+</body>
+</html>
